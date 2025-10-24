@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+<div class="card p-4">
+    <h2>{{ event.name }}</h2>
+    <p><strong>Место:</strong> {{ event.place }}</p>
+    <p><strong>Дата:</strong> {{ event.date }}</p>
+    <p><strong>Время:</strong> {{ event.time|time:"H:i" }}</p>
+    <p><strong>Классы участников:</strong> {{ event.participants_classes }}</p>
+    <p><strong>Учителя:</strong> {{ event.participants_teachers }}</p>
+    <a href="{% url 'events:event_list' %}" class="btn btn-secondary mt-3">Назад к списку</a>
+</div>
+{% endblock %}

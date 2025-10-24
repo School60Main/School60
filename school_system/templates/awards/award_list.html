@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Достижения{% endblock %}
+
+{% block content %}
+<h2>Достижения</h2>
+
+<!-- Форма фильтрации -->
+<form method="GET" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label for="class" class="form-label">Фильтр по классу</label>
+        <input type="text" name="class" value="{{ search_class }}" class="form-control" >
+    </div>
+    <div class="col-md-3">
+        <label for="name" class="form-label">Фильтр по ФИО ученика</label>
+        <input type="text" name="name" value="{{ search_name }}" class="form-control" >
+    </div>
+    <div class="col-md-2">
+        <label for="start_date" class="form-label">Дата начала</label>
+        <input type="date" name="start_date" value="{{ search_start_date }}" class="form-control" >
+    </div>
+    <div class="col-md-2">
+        <label for="end_date" class="form-label">Дата окончания</label>
+        <input type="date" name="end_date" value="{{ search_end_date }}" class="form-control" >
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+        <a href="{% url 'awards:award_list' %}" class="btn btn-secondary">Сброс</a>
+    </div>
+</form>
+
+{% if awards %}
+    <div class="list-group">
+        {% for award in awards %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ award.student_name }}</strong> — {{ award.event_name }} 
+                    <p><small>{{ award.date|date:"d F Y" }}</small></p>
+                </div>
+                <a href="{% url 'awards:award_detail' award.pk %}" class="btn btn-outline-primary btn-sm">Подробнее</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        {% if awards.has_previous %}
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ awards.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+        <span class="current">
+            Страница {{ awards.number }} из {{ awards.paginator.num_pages }}.
+        </span>
+        {% if awards.has_next %}
+            <a href="?page={{ awards.next_page_number }}">Следующая</a>
+            <a href="?page={{ awards.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </div>
+{% else %}
+    <p>Достижений не найдено.</p>
+{% endif %}
+{% endblock %}

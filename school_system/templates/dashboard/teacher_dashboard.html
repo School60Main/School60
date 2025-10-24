@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Учитель - Главная{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card p-3">
+      <h3>Ваши достижения</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'awards:award_list' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
+        <li><a href="{% url 'awards:award_create' %}" class="btn btn-primary btn-sm">Добавить</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-4">
+    <div class="card p-3">
+      <h3>Призёры</h3>
+      <ul class="list-unstyled">
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-4">
+    <div class="card p-3">
+      <h3>Мероприятия</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'events:event_list' %}" class="btn btn-primary btn-sm">Просмотреть</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

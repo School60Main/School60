@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load l10n %}
+{% block title %}Мероприятия{% endblock %}
+
+{% block content %}
+<h2>Мероприятия на ближайшую неделю</h2>
+
+<div class="d-flex justify-content-between mb-4">
+    <!-- Форма фильтрации -->
+    <form method="GET" class="row g-3 flex-grow-1">
+        <div class="col-md-6">
+            <input type="text" name="class" value="{{ search_class }}" class="form-control" placeholder="Фильтр по классу">
+        </div>
+        <div class="col-md-6">
+            <button type="submit" class="btn btn-primary">Фильтровать</button>
+            <a href="{% url 'events:event_list' %}" class="btn btn-secondary">Сброс</a>
+        </div>
+    </form>
+
+    <!-- Кнопка добавления только для администратора -->
+    {% if request.user.is_admin %}
+        <div class="ms-3">
+            <a href="{% url 'events:event_create' %}" class="btn btn-success">Добавить мероприятие</a>
+        </div>
+    {% endif %}
+</div>
+
+
+{% if events_by_date %}
+    {% for date, events in events_by_date.items %}
+    <h4 class="{% if date == today %}text-white bg-warning p-2 rounded{% else %}text-dark{% endif %}">
+        {{ date|date:"l, d F" }}
+    </h4>
+    <div class="row mb-3">
+        {% for event in events %}
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-warning">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    {% if event.time %}
+                        <p class="card-text"><strong>Время:</strong> {{ event.time|time:"H:i" }}</p>
+                    {% endif %}
+                    <p class="card-text"><strong>Место:</strong> {{ event.place }}</p>
+                    <p class="card-text"><strong>Классы:</strong> {{ event.participants_classes }}</p>
+                    <a href="{% url 'events:event_detail' event.pk %}" class="btn btn-warning btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+{% else %}
+    <p>Мероприятий на ближайшую неделю нет.</p>
+{% endif %}
+
+{% endblock %}

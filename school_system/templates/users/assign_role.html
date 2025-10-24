@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Назначить роль для {{ user.username }}{% endblock %}
+
+{% block content %}
+<h2>Назначить роль для {{ user.username }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="is_teacher" class="form-check-label">Учитель</label>
+        <input type="checkbox" name="is_teacher" id="is_teacher" {% if user.is_teacher %}checked{% endif %}>
+    </div>
+
+    <div class="mb-3">
+        <label for="is_admin" class="form-check-label">Администратор</label>
+        <input type="checkbox" name="is_admin" id="is_admin" {% if user.is_admin %}checked{% endif %}>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

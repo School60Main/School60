@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Достижение{% endblock %}
+
+{% block content %}
+<div class="card mb-3 shadow-sm">
+    {% if award.photo %}
+    <img src="{{ award.photo.url }}" class="card-img-top img-fluid w-50" alt="Фото достижения">
+    {% endif %}
+    <div class="card-body">
+        <h5 class="card-title">{{ award.student_name }} ({{ award.student_class }})</h5>
+        <p class="card-text"><strong>Мероприятие:</strong> {{ award.event_name }}</p>
+        <p class="card-text"><strong>Место проведения:</strong> {{ award.place }}</p>
+        <p class="card-text"><strong>Результат:</strong> {{ award.resaulted }}</p>
+
+        <p class="card-text"><strong>Дата:</strong> {{ award.date|date:"d.m.Y" }}</p>
+        <a href="{% url 'awards:award_list' %}" class="btn btn-secondary btn-sm">Назад</a>
+        {% if request.user.is_admin or request.user == award.teacher %}
+        <a href="{% url 'awards:award_update' award.pk %}" class="btn btn-warning btn-sm">Редактировать</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

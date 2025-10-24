@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Администратор - Главная{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-4 mb-4">
+    <div class="card p-3">
+      <h3>Пользователи</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'users:user_list' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card p-3">
+      <h3>Достижения</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'awards:award_list' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
+        <li><a href="{% url 'awards:award_create' %}" class="btn btn-primary btn-sm">Добавить</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card p-3">
+      <h3>Мероприятия</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'events:event_list' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
+        <li><a href="{% url 'events:event_create' %}" class="btn btn-primary btn-sm">Добавить</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
