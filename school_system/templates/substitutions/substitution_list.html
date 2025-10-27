@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Список замен{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📋 Замены</h2>
+        {% if user.is_admin %}
+        <a href="{% url 'substitutions:upload_substitutions' %}" class="btn btn-warning">Загрузить новые замены</a>
+        {% endif %}
+    </div>
+
+    {% if grouped_list %}
+        {% for date, teachers in grouped_list %}
+        <div class="mb-5">
+            <h4 class="fw-bold text-primary mb-3">{{ date|date:"d E Y" }}</h4>
+            <div class="row">
+                {% for teacher, subs in teachers %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-primary text-white fw-bold">
+                            {{ teacher }}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for sub in subs %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="fw-bold">{{ sub.lesson_number }} урок</span><br>
+                                    <small class="text-muted">{{ sub.class_name }} — {{ sub.subject }}</small>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-light text-dark">{{ sub.classroom }}</span><br>
+                                    <small class="text-success">{{ sub.substitute_teacher }}</small>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">Нет текущих замен</div>
+    {% endif %}
+</div>
+{% endblock %}

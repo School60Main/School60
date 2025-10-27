@@ -10,6 +10,7 @@ urlpatterns = [
     path('incentives/', include('incentives.urls')),
     path('events/', include('events.urls')),
     path('stats/', include('stats.urls')),
+    path('substitutions/', include('substitutions.urls')),
 ]
 
 if settings.DEBUG:

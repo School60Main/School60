@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Загрузка замен{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-3">📤 Загрузка замен</h2>
+    <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Выберите Excel-файл:</label>
+            <input type="file" name="file" accept=".xlsx,.xls" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Загрузить</button>
+        <a href="{% url 'substitutions:substitution_list' %}" class="btn btn-secondary">Назад</a>
+    </form>
+</div>
+{% endblock %}
