@@ -11,6 +11,7 @@ urlpatterns = [
     path('events/', include('events.urls')),
     path('stats/', include('stats.urls')),
     path('substitutions/', include('substitutions.urls')),
+    path('announcements/', include('announcements.urls', namespace='announcements')),
 ]
 
 if settings.DEBUG:

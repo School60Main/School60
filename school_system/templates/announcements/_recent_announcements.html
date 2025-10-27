@@ -1,0 +1,23 @@
+{% if announcements %}
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-primary text-white fw-bold">
+        📢 Последние объявления
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for announcement in announcements %}
+        <div class="card mb-3 shadow-sm">
+            {% if announcement.image %}
+            <img src="{{ announcement.image.url }}" class="card-img-top" alt="{{ announcement.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ announcement.title }}</h5>
+                <p class="card-text">{{ announcement.content }}</p>
+                <small class="text-muted">{{ announcement.created_at|date:"d.m.Y H:i" }}</small>
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="alert alert-info text-center">Объявлений пока нет.</div>
+{% endif %}

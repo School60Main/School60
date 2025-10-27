@@ -8,7 +8,6 @@
       <h3>Пользователи</h3>
       <ul class="list-unstyled">
         <li><a href="{% url 'users:user_list' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
-        
       </ul>
     </div>
   </div>
@@ -41,5 +40,33 @@
       </ul>
     </div>
   </div>
+  <div class="col-md-4 mb-4">
+    <div class="card p-3">
+      <h3>Объявления</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'announcements:admin_dashboard' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
+        <li><a href="{% url 'announcements:add_announcement' %}" class="btn btn-primary btn-sm">Добавить</a></li>
+      </ul>
+    </div>
+  </div>
+  {% if announcements %}
+<div class="mt-4">
+    <h5 class="mb-3">📢 Последние объявления</h5>
+    <div class="list-group">
+        {% for announcement in announcements %}
+        <div class="list-group-item list-group-item-action d-flex align-items-start shadow-sm mb-2 rounded">
+            {% if announcement.image %}
+            <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" class="me-3 rounded" style="width:60px; height:60px; object-fit:cover;">
+            {% endif %}
+            <div>
+                <h6 class="mb-1">{{ announcement.title }}</h6>
+                <small class="text-muted">{{ announcement.created_at|date:"d.m.Y H:i" }}</small>
+                <p class="mb-0 text-truncate" style="max-width:400px;">{{ announcement.content }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
 </div>
 {% endblock %}

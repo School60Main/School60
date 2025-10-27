@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 User = get_user_model()
 from users.models import CustomUser
-
+from announcements.models import Announcement
 # ----------------------------
 # Регистрация пользователя
 # ----------------------------
@@ -51,13 +51,18 @@ class CustomLoginView(LoginView):
 # ----------------------------
 @login_required
 def dashboard(request):
+    announcements = Announcement.objects.filter(is_active=True).order_by('-created_at')[:5]  # последние 5
+    context = {
+        'announcements': announcements,
+    }
+
     # Проверка ролей
     if hasattr(request.user, 'is_admin') and request.user.is_admin:
-        return render(request, 'dashboard/admin_dashboard.html')
+        return render(request, 'dashboard/admin_dashboard.html', context)
     elif hasattr(request.user, 'is_teacher') and request.user.is_teacher:
-        return render(request, 'dashboard/teacher_dashboard.html')
+        return render(request, 'dashboard/teacher_dashboard.html', context)
     else:
-        return render(request, 'dashboard/guest_dashboard.html')
+        return render(request, 'dashboard/guest_dashboard.html', context)
 
 
 # ----------------------------
