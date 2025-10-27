@@ -52,17 +52,27 @@
     <a class="navbar-brand" href="{% url 'users:dashboard' %}">🏫 Школа</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and not user.is_superuser %}
           <li class="nav-item"><a class="nav-link" href="{% url 'users:dashboard' %}">Главная</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'awards:award_list' %}">Достижения</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'events:event_list' %}">Мероприятия</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'substitutions:substitution_list' %}">Замены</a></li>
-          
+          <li class="nav-item"><a class="nav-link" href="{% url 'announcements:announcement_list' %}">Объявления</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
-        {% else %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Войти</a></li>
+        {% endif %}
+        {% if user.is_superuser and user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'users:dashboard' %}">Главная</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'awards:award_list' %}">Достижения</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'events:event_list' %}">Мероприятия</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'substitutions:substitution_list' %}">Замены</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'announcements:admin_dashboard' %}">Объявления</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
+        {% endif %}
+        {% if not user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Вход</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">Регистрация</a></li>
         {% endif %}
+
       </ul>
     </div>
   </div>
