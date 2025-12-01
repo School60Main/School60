@@ -66,3 +66,5 @@ def delete_announcement(request, pk):
         messages.success(request, "Объявление удалено!")
         return redirect('announcements:admin_dashboard')
     return render(request, 'announcements/announcement_confirm_delete.html', {'announcement': announcement})
+
+

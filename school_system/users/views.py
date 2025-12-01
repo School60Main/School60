@@ -49,11 +49,25 @@ class CustomLoginView(LoginView):
 # ----------------------------
 # Dashboard
 # ----------------------------
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from announcements.models import Announcement
+from notifications.models import Notification
+
 @login_required
 def dashboard(request):
-    announcements = Announcement.objects.filter(is_active=True).order_by('-created_at')[:5]  # последние 5
+    # Последние 5 объявлений
+    announcements = Announcement.objects.filter(is_active=True).order_by('-created_at')[:5]
+
+    # Непрочитанные уведомления текущего пользователя
+    unread_notifications = Notification.objects.filter(
+        receiver=request.user,
+        is_read=False
+    ).order_by('-created_at')
+
     context = {
         'announcements': announcements,
+        'unread_notifications': unread_notifications,
     }
 
     # Проверка ролей
@@ -63,6 +77,7 @@ def dashboard(request):
         return render(request, 'dashboard/teacher_dashboard.html', context)
     else:
         return render(request, 'dashboard/guest_dashboard.html', context)
+
 
 
 # ----------------------------

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Создать уведомление{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">✉ Создать уведомление</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- Отправка всем -->
+                <div class="form-check mb-4">
+                    {{ form.to_all_teachers }}
+                    <label class="form-check-label fw-bold">
+                        Отправить всем учителям
+                    </label>
+                </div>
+
+                <!-- Выбор конкретного учителя -->
+                <div class="mb-4">
+                    {{ form.receiver|as_crispy_field }}
+                </div>
+
+                <!-- Заголовок -->
+                <div class="mb-4">
+                    {{ form.title|as_crispy_field }}
+                </div>
+
+                <!-- Сообщение -->
+                <div class="mb-4">
+                    {{ form.message|as_crispy_field }}
+                </div>
+
+                <!-- Вложение -->
+                <div class="mb-4 ">
+                    {{ form.attachment|as_crispy_field }}
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                    📤 Отправить уведомление
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

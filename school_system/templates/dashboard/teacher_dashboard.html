@@ -3,6 +3,7 @@
 
 {% block content %}
 <div class="row">
+  <!-- Карточки дашборда -->
   <div class="col-md-6 mb-4">
     <div class="card p-3">
       <h3>Ваши достижения</h3>
@@ -31,32 +32,85 @@
     </div>
   </div>
 
-  <div class = "col-md-6 mb-4">
+  <div class="col-md-6 mb-4">
     <div class="card p-3">
       <h3>Замены</h3>
       <ul class="list-unstyled">
-        <li><a href="{% url 'substitutions:substitution_list' %}" class="btn btn-primary btn-sm ">Просмотреть</a></li>
+        <li><a href="{% url 'substitutions:substitution_list' %}" class="btn btn-primary btn-sm">Просмотреть</a></li>
       </ul>
     </div>
   </div>
-  {% if announcements %}
-<div class="mt-4">
-    <h5 class="mb-3">📢 Последние объявления</h5>
-    <div class="list-group">
-        {% for announcement in announcements %}
-        <div class="list-group-item list-group-item-action d-flex align-items-start shadow-sm mb-2 rounded">
-            {% if announcement.image %}
-            <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" class="me-3 rounded" style="width:60px; height:60px; object-fit:cover;">
-            {% endif %}
-            <div>
-                <h6 class="mb-1">{{ announcement.title }}</h6>
-                <small class="text-muted">{{ announcement.created_at|date:"d.m.Y H:i" }}</small>
-                <p class="mb-0 text-truncate" style="max-width:400px;">{{ announcement.content }}</p>
-            </div>
-        </div>
-        {% endfor %}
+
+  <div class="col-md-6 mb-4">
+    <div class="card p-3">
+      <h3>Уведомления</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'notifications:list_notifications' %}" class="btn btn-primary btn-sm">Просмотреть</a></li>
+      </ul>
     </div>
+  </div>
+
+  <!-- Последние объявления -->
+  {% if announcements %}
+  <div class="mt-4">
+      <h5 class="mb-3">📢 Последние объявления</h5>
+      <div class="list-group">
+          {% for announcement in announcements %}
+          <div class="list-group-item list-group-item-action d-flex align-items-start shadow-sm mb-2 rounded">
+              {% if announcement.image %}
+              <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" class="me-3 rounded" style="width:60px; height:60px; object-fit:cover;">
+              {% endif %}
+              <div>
+                  <h6 class="mb-1">{{ announcement.title }}</h6>
+                  <small class="text-muted">{{ announcement.created_at|date:"d.m.Y H:i" }}</small>
+                  <p class="mb-0 text-truncate" style="max-width:400px;">{{ announcement.content }}</p>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+  {% endif %}
 </div>
+
+<!-- Модальное окно непрочитанных уведомлений -->
+{% if unread_notifications %}
+<div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="notificationsModalLabel">📢 У вас есть новые уведомления</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group">
+          {% for notification in unread_notifications %}
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+              <div class="fw-bold">{{ notification.title }}</div>
+              <small class="text-muted">{{ notification.created_at|date:"d.m.Y H:i" }}</small>
+              <p class="mb-0">{{ notification.message|truncatechars:100 }}</p>
+            </div>
+            <a href="{% url 'notifications:notification_detail' notification.id %}" class="btn btn-sm btn-outline-primary">
+              Открыть
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'notifications:list_notifications' %}" class="btn btn-secondary">Все уведомления</a>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var myModal = new bootstrap.Modal(document.getElementById('notificationsModal'));
+    myModal.show();
+  });
+</script>
 {% endif %}
-</div>
+
 {% endblock %}

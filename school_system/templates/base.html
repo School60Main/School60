@@ -58,6 +58,9 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'events:event_list' %}">Мероприятия</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'substitutions:substitution_list' %}">Замены</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'announcements:announcement_list' %}">Объявления</a></li>
+          <li class="nav-item">
+    <a class="nav-link" href="{% url 'schedule:schedule_list' %}">Расписание</a>
+</li>
           <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
         {% endif %}
         {% if user.is_superuser and user.is_authenticated %}
@@ -66,6 +69,9 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'events:event_list' %}">Мероприятия</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'substitutions:substitution_list' %}">Замены</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'announcements:admin_dashboard' %}">Объявления</a></li>
+            <li class="nav-item">
+    <a class="nav-link" href="{% url 'schedule:schedule_list' %}">Расписание</a>
+</li>
             <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>
         {% endif %}
         {% if not user.is_authenticated %}

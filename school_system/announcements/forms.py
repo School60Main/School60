@@ -18,3 +18,5 @@ class AnnouncementForm(forms.ModelForm):
             'image': 'Изображение',
             'is_active': 'Активно',
         }
+
+        

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Расписание{% endblock %}
+{% block content %}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📚 Расписание уроков</h2>
+        {% if user.is_admin %}
+        <a href="{% url 'schedule:upload_schedule' %}" class="btn btn-warning">Загрузить Excel</a>
+        {% endif %}
+    </div>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <select name="class" class="form-select" onchange="this.form.submit()">
+                <option value="">Выбрать класс</option>
+                {% for cls in classes %}
+                    <option value="{{ cls }}" {% if selected_class == cls %}selected{% endif %}>{{ cls }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-5">
+            <select name="teacher" class="form-select" onchange="this.form.submit()">
+                <option value="">Выбрать учителя</option>
+                {% for t in teachers %}
+                    <option value="{{ t }}" {% if selected_teacher == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary w-100">Сброс</a>
+        </div>
+    </form>
+
+    {% if grouped_schedule %}
+        {% for day, lessons in grouped_schedule.items %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white fw-bold">
+                {{ day }}
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for lesson in lessons %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="fw-bold">{{ lesson.lesson_number }} урок</span><br>
+                        <small>{{ lesson.subject }} ({{ lesson.class_name }})</small>
+                    </div>
+                    <div class="text-end">
+                        <small class="text-muted">{{ lesson.teacher }}</small><br>
+                        <span class="badge bg-light text-dark">{{ lesson.classroom }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info text-center">Нет данных для выбранного класса или преподавателя</div>
+    {% endif %}
+</div>
+
+{% endblock %}

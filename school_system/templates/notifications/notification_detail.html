@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>{{ notification.title }}</h5>
+        {% if not notification.is_read %}
+            <span class="badge bg-primary">Новое</span>
+        {% else %}
+            <span class="badge bg-success">Прочитано</span>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <p class="text-muted">{{ notification.created_at|date:"d.m.Y H:i" }}</p>
+        <p>{{ notification.message }}</p>
+
+        {% if notification.attachment %}
+        {% with notification.attachment.url|lower as file_url %}
+            {% if ".jpg" in file_url or ".jpeg" in file_url or ".png" in file_url %}
+                <img src="{{ notification.attachment.url }}" class="img-fluid mb-3 rounded" style="max-width:300px;">
+            {% endif %}
+        {% endwith %}
+        <a href="{{ notification.attachment.url }}" class="btn btn-outline-secondary" download>📎 Скачать вложение</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

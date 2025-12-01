@@ -9,4 +9,6 @@ urlpatterns = [
     path('add/', views.add_announcement, name='add_announcement'),
     path('edit/<int:pk>/', views.edit_announcement, name='edit_announcement'),
     path('delete/<int:pk>/', views.delete_announcement, name='delete_announcement'),
+    
+    
 ]

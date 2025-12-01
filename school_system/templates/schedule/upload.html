@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Загрузка расписания{% endblock %}
+{% block content %}
+
+<div class="container py-4">
+    <h2 class="mb-4">📤 Загрузка расписания из Excel</h2>
+
+    <div class="alert alert-info">
+        <strong>Формат Excel файла должен быть следующим:</strong><br>
+        <ul>
+            <li>День недели</li>
+            <li>Номер урока</li>
+            <li>Класс</li>
+            <li>Предмет</li>
+            <li>Учитель</li>
+            <li>Кабинет</li>
+        </ul>
+        <p>Все заголовки должны быть написаны <b>точно так же</b>, как указано выше (с большой буквы и без лишних пробелов).</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="file" class="form-label">Выберите Excel файл (.xlsx):</label>
+            <input type="file" name="file" accept=".xlsx" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Загрузить</button>
+        <a href="{% url 'schedule:schedule_list' %}" class="btn btn-secondary">Назад</a>
+    </form>
+</div>
+
+{% endblock %}
