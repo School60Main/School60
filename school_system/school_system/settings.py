@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'announcements',
     'rasp',
     'notifications',
+    'StudyMaterial',
+    
     
     
 ]

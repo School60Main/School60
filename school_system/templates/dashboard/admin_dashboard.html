@@ -60,6 +60,15 @@
       </ul>
     </div>
   </div>
+  <div class="col-md-4 mb-4">
+    <div class="card p-3">
+      <h3>Материалы</h3>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'materials:material_list' %}" class="btn btn-primary btn-sm mb-2">Просмотреть</a></li>
+        <li><a href="{% url 'materials:material_upload' %}" class="btn btn-primary btn-sm">Добавить</a></li>
+      </ul>
+    </div>
+  </div>
   {% if announcements %}
 <div class="mt-4">
     <h5 class="mb-3">📢 Последние объявления</h5>

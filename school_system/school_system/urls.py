@@ -13,6 +13,7 @@ urlpatterns = [
     path('substitutions/', include('substitutions.urls')),
     path('announcements/', include('announcements.urls', namespace='announcements')),
     path('notifications/', include('notifications.urls')),
+    path('materials/', include('StudyMaterial.urls')),
 ]
 
 if settings.DEBUG:

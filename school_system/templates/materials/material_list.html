@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Учебные материалы</h2>
+
+    <div class="mb-3">
+        <form method="get" class="row g-2">
+            <div class="col-md-3">
+                <select name="subject" class="form-select">
+                    <option value="">Все предметы</option>
+                    {% for code, name in materials.model.SUBJECT_CHOICES %}
+                    <option value="{{ code }}" {% if subject_filter == code %}selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="teacher" class="form-select">
+                    <option value="">Все учителя</option>
+                    {% for t in teachers %}
+                    <option value="{{ t.0 }}" {% if teacher_filter == t.0|stringformat:"s" %}selected{% endif %}>{{ t.1 }} {{ t.2 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Фильтровать</button>
+            </div>
+        </form>
+    </div>
+
+    <a href="{% url 'materials:material_upload' %}" class="btn btn-success mb-3">Добавить материал</a>
+
+    <div class="list-group">
+        {% for material in materials %}
+        <a href="{% url 'materials:material_detail' material.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ material.title }}</h5>
+                <small>{{ material.uploaded_at|date:"d.m.Y H:i" }}</small>
+            </div>
+            <p class="mb-1">{{ material.description|truncatechars:100 }}</p>
+            <small>Загрузил: {{ material.uploaded_by.get_full_name }}</small>
+        </a>
+        {% empty %}
+        <p>Материалы отсутствуют.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
